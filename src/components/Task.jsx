@@ -17,7 +17,7 @@ const Task = () => {
     if (storedTasks) {
       setTasks(JSON.parse(storedTasks));
     }
-  }, []);
+  }, [setTasks]);
 
   useEffect(() => {
     if (tasks.length > 0) {
@@ -39,7 +39,9 @@ const Task = () => {
 
   // delete tasks
   const handleDeleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
   //edit tasks
@@ -83,7 +85,7 @@ const Task = () => {
   };
 
   return (
-    <div className='ml-20'>
+    <div className='ml-16'>
       <section className='ml-2 p-6 border-b dark:border-darkBorder shadow bg-white dark:bg-bgPrimary dark:text-white'>
         <div className='flex ml-4 gap-8'>
           <div>
@@ -111,9 +113,9 @@ const Task = () => {
       </section>
 
       {/* Sorting and Filtering Options */}
-      <div className='mx-16 mt-6'>
+      <div className='mx-10 mt-6'>
         <section>
-          <div className='flex justify-between mb-4'>
+          <div className='flex justify-between mb-4 gap-4'>
             <div>
               <label htmlFor='sortKey' className='mr-2 dark:text-white'>
                 Sort By:

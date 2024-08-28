@@ -3,7 +3,6 @@ import totalicon from '/src/assets/totalicon.png';
 import taskCompleted from '/src/assets/taskCompleted.png';
 import { IoSearchSharp } from 'react-icons/io5';
 import { useTasks } from '../contexts/TaskContext';
-import { FcTodoList } from 'react-icons/fc';
 
 const Dashboard = () => {
   const { tasks, setTasks } = useTasks();
@@ -46,7 +45,9 @@ const Dashboard = () => {
   useEffect(() => {
     const handleDropDown = (e) => {
       if (
+        dropdownRef.current &&
         !dropdownRef.current.contains(e.target) &&
+        inputRef.current &&
         !inputRef.current.contains(e.target)
       ) {
         setShowSuggestions(false);
@@ -75,9 +76,9 @@ const Dashboard = () => {
   );
 
   return (
-    <div className='mx-16'>
+    <div className='ml-16'>
       {/* Search Input Container */}
-      <section className='ml-2 p-6 border-b dark:border-darkBorder shadow bg-white dark:bg-bgPrimary dark:text-white'>
+      <section className='p-6 border-b dark:border-darkBorder shadow bg-white dark:bg-bgPrimary dark:text-white'>
         <div className='flex justify-end items-center mb-4'>
           <div className='w-full max-w-[400px] px-4 relative'>
             <input
@@ -115,8 +116,8 @@ const Dashboard = () => {
 
       {/* Display Selected Task Details */}
       {selectedTask ? (
-        <div className='flex flex-wrap mx-16 mt-10 gap-4'>
-          <section className='w-full lg:w-[50%] min-w-[200px] bg-lightmainCompBg dark:bg-sidebarBg p-4'>
+        <div className='flex justify-center mt-10 gap-4'>
+          <section className='w-full max-w-[60%] lg:max-w-[700px] bg-lightmainCompBg dark:bg-sidebarBg p-4'>
             <h1 className='font-bold text-xl dark:text-white text-center'>
               {selectedTask.title}
             </h1>
@@ -137,10 +138,11 @@ const Dashboard = () => {
           </section>
         </div>
       ) : (
-        <div className='flex flex-wrap mx-16 mt-6 gap-6'>
-          <div className='flex-1 flex flex-col items-center gap-6'>
-            {/* Main Components */}
-            <section className='bg-lightmainCompBg dark:bg-sidebarBg p-4 py-6 sm:w-[40%] md:w-[60%] lg:w-[80%] min-w-[300px] '>
+        <div className='flex flex-wrap lg:flex-nowrap gap-6 mx-16 mt-8'>
+          {/* Main Components */}
+          <section className='flex-1 flex flex-col items-center gap-6'>
+            <section className='bg-lightmainCompBg dark:bg-sidebarBg p-4 py-6 lg:w-[80%] min-w-[300px]'>
+              {/* Total Tasks and Task Completed */}
               <div className='flex flex-wrap justify-evenly gap-4'>
                 {/* Total Tasks */}
                 <div className='w-full lg:w-[45%] min-w-[200px] px-4 py-5 rounded-md bg-lightStatBg dark:bg-summaryStatusBg flex items-center justify-between'>
@@ -183,14 +185,14 @@ const Dashboard = () => {
               <h1 className='font-bold text-xl dark:text-white text-center'>
                 To Do: {TodoListCount}
               </h1>
-              <hr className='w-full  border dark:border-darkBorder my-4' />
-              <div className='flex flex-wrap gap-4 space-y-2'>
+              <hr className='w-full border dark:border-darkBorder my-4' />
+              <div className='flex flex-wrap gap-4'>
                 {tasks
                   .filter((task) => task.status === 'To Do')
                   .map((task) => (
                     <div
                       key={task.id}
-                      className='w-full min-w-[200px] px-4 py-5 rounded-lg bg-lightStatBg dark:bg-summaryStatusBg'
+                      className='w-full min-w-[200px] px-4 py-5 rounded-lg bg-lightStatBg dark:bg-summaryStatusBg space-y-2'
                     >
                       <h3 className='font-medium text-lg dark:text-white'>
                         {task.title}
@@ -205,21 +207,21 @@ const Dashboard = () => {
                   ))}
               </div>
             </section>
-          </div>
+          </section>
 
-          {/* In Progress */}
-          <section className='sm:w-[40%] md:w-[25%] lg:w-[25%] min-w-[300px] bg-lightmainCompBg dark:bg-sidebarBg p-4 h-fit '>
+          {/* In Progress Section */}
+          <section className='sm:w-[40%] lg:w-[25%] min-w-[300px] bg-lightmainCompBg dark:bg-sidebarBg p-4 h-fit'>
             <h1 className='font-bold text-xl text-center dark:text-white'>
               In Progress: {InProgressCount}
             </h1>
             <hr className='border dark:border-darkBorder my-4' />
-            <div className='flex flex-col gap-4 space-y-2'>
+            <div className='flex flex-wrap gap-4'>
               {tasks
                 .filter((task) => task.status === 'In Progress')
                 .map((task) => (
                   <div
                     key={task.id}
-                    className='w-full min-w-[200px] px-4 py-5 rounded-lg bg-lightStatBg dark:bg-summaryStatusBg dark:text-white'
+                    className='w-full min-w-[200px] px-4 py-5 rounded-lg bg-lightStatBg dark:bg-summaryStatusBg dark:text-white space-y-2'
                   >
                     <h3 className='font-medium text-lg dark:text-white'>
                       {task.title}
